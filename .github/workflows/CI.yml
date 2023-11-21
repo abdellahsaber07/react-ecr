@@ -12,6 +12,9 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      - name: Install Kubectl
+        uses: azure/setup-kubectl@v2
+
       - name: Configure  Amazon Ecr
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -28,4 +31,9 @@ jobs:
           docker tag react-app-ecr:latest 927770512418.dkr.ecr.us-east-1.amazonaws.com/test-ecr:latest
       - name: Push Docker Image to ecr
         run: docker push 927770512418.dkr.ecr.us-east-1.amazonaws.com/test-ecr:latest
-        
+
+      - name: Update Kube Config
+        run: aws eks --region us-east-1 update-kubeconfig --name cluster-test-1
+
+      - name: Deploy To Eks
+        run: kubectl apply -f Kubernetes/deploy.yml -f Kubernetes/deploy.yml service.yml
