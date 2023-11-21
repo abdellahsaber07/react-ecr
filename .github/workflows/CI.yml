@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install Kubectl
-        uses: azure/setup-kubectl@v2
+        uses: azure/setup-kubectl@v2.0
 
       - name: Configure  Amazon Ecr
         uses: aws-actions/configure-aws-credentials@v1
