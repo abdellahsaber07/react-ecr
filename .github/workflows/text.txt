@@ -1,0 +1,28 @@
+name: Build and push to Ecr
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+      - name: Login to Amazon Ecr
+        run: |
+          aws configure set aws_access_key_id ${{secrets.AWS_ACCESS_KEY_ID}}
+          aws configure set aws_secret_access_key ${{secrets.AWS_SECRET_ACCESS_KEY}}
+          aws configure set default.region us-east-1
+          aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 563940537117.dkr.ecr.us-east-1.amazonaws.com
+      - name: Build Docker Image
+        run: |
+          docker build -t react-app-ecr .
+          docker tag react-app-ecr:latest 322421043052.dkr.ecr.us-east-1.amazonaws.com/ecr-test:latest
+      - name: Push Docker Image to ecr
+        run: docker push 322421043052.dkr.ecr.us-east-1.amazonaws.com/ecr-test:latest
+
+      - name: Update kube config
+        run: aws eks update-kubeconfig --name reac-app-cluster --region us-east-1
