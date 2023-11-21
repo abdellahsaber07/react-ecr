@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: react-app
-          image: 927770512418.dkr.ecr.us-east-1.amazonaws.com/test-ecr:latest
+          image: 615577564605.dkr.ecr.us-east-1.amazonaws.com/ecr-react:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 3000 # Should match the port your React app is running on
