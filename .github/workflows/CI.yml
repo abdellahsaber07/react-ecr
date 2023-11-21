@@ -33,7 +33,7 @@ jobs:
         run: docker push 615577564605.dkr.ecr.us-east-1.amazonaws.com/ecr-react:latest
 
       - name: Update Kube Config
-        run: aws eks --region us-east-1 update-kubeconfig --name cluster-test-1
+        run: aws eks --region us-east-1 update-kubeconfig --name cluster-eks
 
       - name: Deploy To Eks
         run: kubectl apply -f Kubernetes/deploy.yml -f Kubernetes/service.yml
