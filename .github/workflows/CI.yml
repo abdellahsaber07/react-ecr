@@ -36,4 +36,4 @@ jobs:
         run: aws eks --region us-east-1 update-kubeconfig --name cluster-test-1
 
       - name: Deploy To Eks
-        run: kubectl apply -f Kubernetes/deploy.yml -f Kubernetes/deploy.yml service.yml
+        run: kubectl apply -f Kubernetes/deploy.yml -f Kubernetes/service.yml
