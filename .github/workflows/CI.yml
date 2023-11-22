@@ -25,17 +25,13 @@ jobs:
       - name: Login To Amazon Ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Get GitHub Run Number
-        id: get_run_number
-        run: echo "GITHUB_RUN_NUMBER=${GITHUB_RUN_NUMBER}" >> $GITHUB_ENV
-
       - name: Build & Tag Docker Image
         run: |
-          IMAGE_TAG=$(echo $GITHUB_RUN_NUMBER)
-          docker build -t react-app-ecr:v-${IMAGE_TAG} .
-          docker tag react-app-ecr:v-${IMAGE_TAG} 157931892911.dkr.ecr.us-east-1.amazonaws.com/myreact-ecr:v-${IMAGE_TAG}
+          IMAGE_TAG="v-${GITHUB_RUN_NUMBER}"
+          docker build -t react-app-ecr:${IMAGE_TAG} .
+          docker tag react-app-ecr:${IMAGE_TAG} 157931892911.dkr.ecr.us-east-1.amazonaws.com/myreact-ecr:${IMAGE_TAG}
       - name: Push Docker Image to ecr
-        run: docker push 157931892911.dkr.ecr.us-east-1.amazonaws.com/myreact-ecr:v-${IMAGE_TAG}
+        run: docker push 157931892911.dkr.ecr.us-east-1.amazonaws.com/myreact-ecr:${IMAGE_TAG}
 
       - name: Update Kube Config
         run: aws eks --region us-east-1 update-kubeconfig --name test-cluster-react
