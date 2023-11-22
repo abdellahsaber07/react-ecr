@@ -27,7 +27,7 @@ jobs:
 
       - name: Update Kubernetest deployment
         run: |
-          sed -i.bak "s|520062632936\.dkr\.ecr\.us-east-1\.amazonaws\.com/react-ecr:v1|520062632936.dkr.ecr.us-east-1.amazonaws.com/react-ecr:v${GITHUB_RUN_NUMBER}|g" Kubernetes/deploy.yml
+          sed -i.bak "s|520062632936.dkr.ecr.us-east-1.amazonaws\com/react-ecr:v1|520062632936.dkr.ecr.us-east-1.amazonaws.com/react-ecr:v${GITHUB_RUN_NUMBER}|g" Kubernetes/deploy.yml
 
       - name: Debug - Show contents of deploy.yml after sed
         run: cat Kubernetes/deploy.yml
