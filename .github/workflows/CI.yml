@@ -44,7 +44,6 @@ jobs:
       - name: Update Kubernetest deployment
         run: |
           sed -i.bak "s|$ECR_REPO:v1|$ECR_REPO:$IMAGE_TAG|g" Kubernetes/deploy.yml
-          cat  Kubernetes/deploy.yml
 
       - name: Deploy To Eks
         run: kubectl apply -f Kubernetes/deploy.yml -f Kubernetes/service.yml
