@@ -39,7 +39,7 @@ jobs:
           sed -i "s/v/${{ steps.generate_tag.outputs.IMAGE_TAG }}/g" values.yml
 
       - name: Helm Template
-        run: helm template my-release chart.yml > values.yml
+        run: helm template my-release Chart.yml > values.yml
 
       - name: Build & Tag Docker Image
         run: |
