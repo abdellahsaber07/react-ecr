@@ -28,12 +28,12 @@ jobs:
       - name: Build & Tag Docker Image
         run: |
           docker build -t react-app-ecr .
-          docker tag react-app-ecr:latest 615577564605.dkr.ecr.us-east-1.amazonaws.com/ecr-react:latest
+          docker tag react-app-ecr:v1 157931892911.dkr.ecr.us-east-1.amazonaws.com/myreact-ecr:v1
       - name: Push Docker Image to ecr
-        run: docker push 615577564605.dkr.ecr.us-east-1.amazonaws.com/ecr-react:latest
+        run: docker push 157931892911.dkr.ecr.us-east-1.amazonaws.com/myreact-ecr:v1
 
       - name: Update Kube Config
-        run: aws eks --region us-east-1 update-kubeconfig --name cluster-eks
+        run: aws eks --region us-east-1 update-kubeconfig --name test-cluster-react
 
       - name: Deploy To Eks
         run: kubectl apply -f Kubernetes/deploy.yml -f Kubernetes/service.yml
