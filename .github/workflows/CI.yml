@@ -25,18 +25,9 @@ jobs:
       - name: Login To Amazon Ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Setup Helm
-        uses: azure/setup-helm@v1
-        with:
-          version: "latest" # Or specify a specific version of Helm
-
-      - name: Generate Tag
-        id: generate_tag
-        run: echo "::set-output name=IMAGE_TAG::v${GITHUB_RUN_NUMBER}"
-
       - name: Update Kubernetest deployment
         run: |
-          sed -i "s|image: 520062632936.dkr.ecr.us-east-1.amazonaws.com/react-ecr:v1|image: 520062632936.dkr.ecr.us-east-1.amazonaws.com/react-ecr:$IMAGE_TAG|g" Kubernetes/deploy.yml
+          sed -i "s|image:  520062632936.dkr.ecr.us-east-1.amazonaws.com/react-ecr:v1|image: 520062632936.dkr.ecr.us-east-1.amazonaws.com/react-ecr:v${GITHUB_RUN_NUMBER}|g" Kubernetes/deploy.yml
 
       - name: Build & Tag Docker Image
         run: |
