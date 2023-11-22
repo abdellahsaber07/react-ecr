@@ -36,14 +36,14 @@ jobs:
 
       - name: Update Kubernetest deployment
         run: |
-          sed -i "s|image: 157931892911.dkr.ecr.us-east-1.amazonaws.com/myreact-ecr:v1|image: 157931892911.dkr.ecr.us-east-1.amazonaws.com/myreact-ecr:$IMAGE_TAG|g" Kubernetes/deploy.yml
+          sed -i "s|image: 520062632936.dkr.ecr.us-east-1.amazonaws.com/react-ecr:v1|image: 520062632936.dkr.ecr.us-east-1.amazonaws.com/react-ecr:$IMAGE_TAG|g" Kubernetes/deploy.yml
 
       - name: Build & Tag Docker Image
         run: |
           docker build -t react-app-ecr:v${GITHUB_RUN_NUMBER} .
-          docker tag react-app-ecr:v${GITHUB_RUN_NUMBER} 157931892911.dkr.ecr.us-east-1.amazonaws.com/myreact-ecr:v${GITHUB_RUN_NUMBER}
+          docker tag react-app-ecr:v${GITHUB_RUN_NUMBER} 520062632936.dkr.ecr.us-east-1.amazonaws.com/react-ecr:v${GITHUB_RUN_NUMBER}
       - name: Push Docker Image to ecr
-        run: docker push 157931892911.dkr.ecr.us-east-1.amazonaws.com/myreact-ecr:v${GITHUB_RUN_NUMBER}
+        run: docker push 520062632936.dkr.ecr.us-east-1.amazonaws.com/react-ecr:v${GITHUB_RUN_NUMBER}
 
       - name: Update Kube Config
         run: aws eks --region us-east-1 update-kubeconfig --name cluster-react
