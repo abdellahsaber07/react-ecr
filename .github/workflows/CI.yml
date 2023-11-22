@@ -38,6 +38,9 @@ jobs:
         run: |
           sed -i "s/v/${{ steps.generate_tag.outputs.IMAGE_TAG }}/g" values.yml
 
+      - name: Update Repo
+        run: helm repo update
+
       - name: Helm Template
         run: helm template my-release Chart.yml > values.yml
 
