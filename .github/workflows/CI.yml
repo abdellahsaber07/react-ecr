@@ -36,7 +36,7 @@ jobs:
 
       - name: Update Helm Chart Values
         run: |
-          sed -i "s/v/${{ steps.generate_tag.outputs.IMAGE_TAG }}/g" values.yaml
+          sed -i "s/v/${{ steps.generate_tag.outputs.IMAGE_TAG }}/g" values.yml
 
       - name: Helm Template
         run: |
