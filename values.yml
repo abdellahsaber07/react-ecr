@@ -1,4 +1,0 @@
-image:
-  repository: 520062632936.dkr.ecr.us-east-1.amazonaws.com/react-ecr
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: "v"
