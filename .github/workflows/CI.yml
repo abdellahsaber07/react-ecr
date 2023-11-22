@@ -29,6 +29,9 @@ jobs:
         run: |
           sed -i.bak "s|DOCKER_IMAGE|520062632936.dkr.ecr.us-east-1.amazonaws.com/react-ecr:v${GITHUB_RUN_NUMBER}|g" Kubernetes/deploy.yml
 
+      - name: Debug - Show contents of deploy.yml after sed
+        run: cat Kubernetes/deploy.yml
+
       - name: Build & Tag Docker Image
         run: |
           docker build -t react-app-ecr:v${GITHUB_RUN_NUMBER} .
