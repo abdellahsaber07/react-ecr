@@ -8,6 +8,10 @@ on:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+    env:
+      ECR_REPO: 520062632936.dkr.ecr.us-east-1.amazonaws.com/react-ecr
+      IMAGE_TAG: v${{github.run_number}}
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -26,17 +30,11 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
 
       - name: Build & Tag Docker Image
-        env:
-          ECR_REPO: 520062632936.dkr.ecr.us-east-1.amazonaws.com/react-ecr
-          IMAGE_TAG: v${{github.run_number}}
         run: |
           docker build -t react-app-ecr:$IMAGE_TAG .
           docker tag react-app-ecr:$IMAGE_TAG $ECR_REPO:$IMAGE_TAG
 
       - name: Push Docker Image to ecr
-        env:
-          ECR_REPO: 520062632936.dkr.ecr.us-east-1.amazonaws.com/react-ecr
-          IMAGE_TAG: v${{github.run_number}}
         run: |
           docker push $ECR_REPO:$IMAGE_TAG
 
@@ -44,9 +42,6 @@ jobs:
         run: aws eks --region us-east-1 update-kubeconfig --name cluster-react
 
       - name: Update Kubernetest deployment
-        env:
-          ECR_REPO: 520062632936.dkr.ecr.us-east-1.amazonaws.com/react-ecr
-          IMAGE_TAG: v${{github.run_number}}
         run: |
           sed -i.bak "s|$ECR_REPO:v1|$ECR_REPO:$IMAGE_TAG|g" Kubernetes/deploy.yml
           cat  Kubernetes/deploy.yml
