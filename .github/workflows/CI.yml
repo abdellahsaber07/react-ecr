@@ -25,16 +25,16 @@ jobs:
       - name: Login To Amazon Ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Update Kubernetest deployment
-        run: |
-          sed -i.bak 's|DOCKER_IMAGE|520062632936.dkr.ecr.us-east-1.amazonaws.com/react-ecr:v${GITHUB_RUN_NUMBER}|g' Kubernetes/deploy.yml
+      # - name: Update Kubernetest deployment
+      #   run: |
+      #     sed -i.bak 's|DOCKER_IMAGE|520062632936.dkr.ecr.us-east-1.amazonaws.com/react-ecr:v${GITHUB_RUN_NUMBER}|g' Kubernetes/deploy.yml
 
       - name: Build & Tag Docker Image
         run: |
-          docker build -t react-app-ecr:v${GITHUB_RUN_NUMBER} .
-          docker tag react-app-ecr:v${GITHUB_RUN_NUMBER} 520062632936.dkr.ecr.us-east-1.amazonaws.com/react-ecr:v${GITHUB_RUN_NUMBER}
+          docker build -t react-app-ecr:v6 .
+          docker tag react-app-ecr:v6 520062632936.dkr.ecr.us-east-1.amazonaws.com/react-ecr:v6
       - name: Push Docker Image to ecr
-        run: docker push 520062632936.dkr.ecr.us-east-1.amazonaws.com/react-ecr:v${GITHUB_RUN_NUMBER}
+        run: docker push 520062632936.dkr.ecr.us-east-1.amazonaws.com/react-ecr:v6
 
       - name: Update Kube Config
         run: aws eks --region us-east-1 update-kubeconfig --name cluster-react
