@@ -28,7 +28,7 @@ jobs:
       - name: Build & Tag Docker Image
         env:
           ECR_REPO: 520062632936.dkr.ecr.us-east-1.amazonaws.com/react-ecr
-          IMAGE_TAG: "v${GITHUB_RUN_NUMBER}"
+          IMAGE_TAG: v${{github.run_number}}
         run: |
           docker build -t react-app-ecr:$IMAGE_TAG .
           docker tag react-app-ecr:$IMAGE_TAG $ECR_REPO:$IMAGE_TAG
