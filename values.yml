@@ -1,0 +1,3 @@
+image:
+  repository: 157931892911.dkr.ecr.us-east-1.amazonaws.com/myreact-ecr  # Docker image repository
+  tag: v  

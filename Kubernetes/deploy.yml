@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: react-app
-          image: 157931892911.dkr.ecr.us-east-1.amazonaws.com/myreact-ecr:v${GITHUB_RUN_NUMBER}
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: Always
           ports:
             - containerPort: 3000 # Should match the port your React app is running on
