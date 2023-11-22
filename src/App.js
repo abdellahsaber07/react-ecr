@@ -15,7 +15,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Continous deploy ecr to eks 
+          AWS: Continous deploy ecr to eks 
         </a>
       </header>
     </div>
