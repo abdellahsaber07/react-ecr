@@ -25,22 +25,25 @@ jobs:
       - name: Login To Amazon Ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Update Kubernetest deployment
-        run: |
-          sed -i.bak "s|520062632936.dkr.ecr.us-east-1.amazonaws\com/react-ecr:v1|520062632936.dkr.ecr.us-east-1.amazonaws.com/react-ecr:v${GITHUB_RUN_NUMBER}|g" Kubernetes/deploy.yml
-
-      - name: Debug - Show contents of deploy.yml after sed
-        run: cat Kubernetes/deploy.yml
-
       - name: Build & Tag Docker Image
+        env:
+          ECR_REPO: 520062632936.dkr.ecr.us-east-1.amazonaws.com/react-ecr
+          IMAGE_TAG: v${GITHUB_RUN_NUMBER}
         run: |
-          docker build -t react-app-ecr:v${GITHUB_RUN_NUMBER} .
-          docker tag react-app-ecr:v${GITHUB_RUN_NUMBER} 520062632936.dkr.ecr.us-east-1.amazonaws.com/react-ecr:v${GITHUB_RUN_NUMBER}
+          docker build -t react-app-ecr:$IMAGE_TAG .
+          docker tag react-app-ecr:$IMAGE_TAG $ECR_REPO:$IMAGE_TAG
+
+      
       - name: Push Docker Image to ecr
-        run: docker push 520062632936.dkr.ecr.us-east-1.amazonaws.com/react-ecr:v${GITHUB_RUN_NUMBER}
+        run: docker push $ECR_REPO:$IMAGE_TAG
 
       - name: Update Kube Config
         run: aws eks --region us-east-1 update-kubeconfig --name cluster-react
+
+      - name: Update Kubernetest deployment
+        run: |
+          sed -i.bak "s|$ECR_REPO:v1|$ECR_REPO:$IMAGE_TAG|g" Kubernetes/deploy.yml
+          cat  Kubernetes/deploy.yml
 
       - name: Deploy To Eks
         run: kubectl apply -f Kubernetes/deploy.yml -f Kubernetes/service.yml
