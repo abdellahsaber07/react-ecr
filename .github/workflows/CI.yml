@@ -34,14 +34,14 @@ jobs:
           docker tag react-app-ecr:${IMAGE_TAG} $ECR_REPO:${IMAGE_TAG}
 
       - name: Push Docker Image to ecr
-        run: echo "docker push $ECR_REPO:$IMAGE_TAG"
+        run: docker push $ECR_REPO:$IMAGE_TAG
 
       - name: Update Kube Config
         run: aws eks --region us-east-1 update-kubeconfig --name cluster-react
 
       - name: Update Kubernetest deployment
         run: |
-          sed -i.bak "s|$ECR_REPO:v1|$ECR_REPO:${IMAGE_TAG}|g" Kubernetes/deploy.yml
+          sed -i.bak "s|$ECR_REPO:v1|$ECR_REPO:$IMAGE_TAG|g" Kubernetes/deploy.yml
           cat  Kubernetes/deploy.yml
 
       - name: Deploy To Eks
